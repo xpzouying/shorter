@@ -9,11 +9,12 @@ package service
 
 import (
 	"context"
+	"strings"
+	"time"
+
 	"github.com/go-kit/kit/log"
 	"github.com/icowan/shorter/pkg/shortid"
 	"github.com/pkg/errors"
-	"strings"
-	"time"
 )
 
 var (
@@ -21,6 +22,7 @@ var (
 	ErrRedirectInvalid  = errors.New("Redirect Invalid")
 )
 
+// 使用interface封装一下。不需要将service struct暴露出去。
 type Service interface {
 	Get(ctx context.Context, code string) (redirect *Redirect, err error)
 	Post(ctx context.Context, domain string) (redirect *Redirect, err error)

@@ -10,14 +10,15 @@ package service
 import (
 	"flag"
 	"fmt"
-	"github.com/icowan/shorter/pkg/grpc"
-	"github.com/icowan/shorter/pkg/grpc/pb"
 	"net"
 	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
 	"syscall"
+
+	"github.com/icowan/shorter/pkg/grpc"
+	"github.com/icowan/shorter/pkg/grpc/pb"
 
 	kitendpoint "github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/kit/log"
@@ -93,6 +94,8 @@ func Run() {
 		}
 	}
 
+	// svc 初始化好后，提供给endpoint。后面都直接使用endpoint去操作即可。
+	// service的能力调用，都封装在endpoint内部，对用户是屏蔽的。
 	svc := service.New(getServiceMiddleware(logger), logger, repo, *shortUri, *maxLength, *alphabet)
 	eps := endpoint.New(svc, getEndpointMiddleware(logger))
 	g := createService(eps)

@@ -9,11 +9,13 @@ package endpoint
 
 import (
 	"context"
+	"time"
+
 	"github.com/go-kit/kit/endpoint"
 	"github.com/icowan/shorter/pkg/service"
-	"time"
 )
 
+// Endpoints 中的成员是函数。
 type Endpoints struct {
 	GetEndpoint  endpoint.Endpoint
 	PostEndpoint endpoint.Endpoint
@@ -58,6 +60,10 @@ type PostResponse struct {
 	Data dataResponse `json:"data"`
 }
 
+// Make{Get,Post}Endpoint 传入参数service.Service，封装使用service的能力。
+// 这里值得学习。
+//
+// 返回的是一个函数，让Endpoints有了一个成员函数。
 func MakeGetEndpoint(s service.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req := request.(GetRequest)
